@@ -1,1 +1,75 @@
+{% extends "bootstrap/base.html" %}
 
+{% block title %}GoldmanSachs{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico', v=9) }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico', v=9) }}" type="image/x-icon">
+<link rel="stylesheet" href="{{url_for('static', filename='sitestyle.css', v=55)}}">
+{% endblock %}
+
+{% block navbar %}
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #7399C7;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{url_for('web.home_page')}}">GoldmanSachs</a>
+        </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li {% if menu == "home" %}class="active"{% endif %}><a href="{{url_for('web.home_page')}}">Home</a></li>
+
+            <li {% if menu == "transactions" %}class="active"{% endif %} class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Transactions<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url_for('web.search_transactions')}}">Search</a></li>
+                        <li><a href="{{url_for('web.upload_transactions')}}">Upload</a></li>
+                    </ul>
+            </li>
+
+
+            <li {% if menu == "reports" %}class="active"{% endif %} class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url_for('web.reports_page', report_name="Expenses" )}}">Expenses</a></li>
+                        <li><a href="{{url_for('web.reports_page', report_name="Income" )}}">Income</a></li>
+                        <li><a href="{{url_for('web.reports_page', report_name="Account Balances" )}}">Account Balance</a></li>
+                    </ul>
+            </li>
+        </ul>
+
+    </div>
+
+    </div>
+
+</nav>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="top-buffer">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
